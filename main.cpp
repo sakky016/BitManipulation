@@ -1,3 +1,6 @@
+#include <assert.h>
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 
 using namespace std;
@@ -47,14 +50,45 @@ string findBinary(const int input)
 
 
 //-------------------------------------------------------------------------------
+int findIntFromBinary(const string& binary)
+{
+    int result = 0;
+    int power = binary.size() - 1;
+    for (const auto& ch : binary)
+    {
+        assert(ch == '1' || ch == '0');
+        int multiplier = (ch == '1') ? 1 : 0;
+        result += pow(2, power) * multiplier;
+        power--;
+    }
+
+    return result;
+}
+
+
+//-------------------------------------------------------------------------------
+int reverseBits(const int input)
+{
+    string binary = findBinary(input);
+    string tmp(binary);
+    reverse(tmp.begin(), tmp.end());
+    return findIntFromBinary(tmp);
+}
+
+
+//-------------------------------------------------------------------------------
 // M A I N
 //-------------------------------------------------------------------------------
 int main()
 {
-    int num = 4;
-
+    int num = 1023;
+    string bin = findBinary(num);
+    cout << "Reverse bits of " << num << ": " << reverseBits(num) << endl;
     cout << "Binary of " << num << ": " << findBinary(num) << endl;
+    cout << "Integer of " << bin << ": " << findIntFromBinary(bin) << endl;
+
     cout << "Binary of " << (num >> 2) << ": " << findBinary(num >> 2) << endl;
+    
 
     int num2 = 255;
     int bitToReset = 4;
